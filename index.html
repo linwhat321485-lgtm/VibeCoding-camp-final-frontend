@@ -23,6 +23,7 @@
             --color-bg-light: #f4f7f6; /* 淺灰背景 */
             --color-text: #333;
             --color-white: #ffffff;
+            --color-shadow-primary: rgba(246, 142, 107, 0.4); /* 主色陰影 */
             --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.1);
             --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.2);
             --border-radius-lg: 16px;
@@ -75,6 +76,7 @@
             height: auto;
             display: block;
             border-radius: 8px;
+            border-radius: var(--border-radius-sm); /* 圓潤感 */
         }
 
         /* 標題層級 */
@@ -84,6 +86,7 @@
             padding: 15px 0;
             color: var(--color-main);
             text-align: center;
+            text-shadow: 1px 1px 3px var(--color-shadow-primary);
         }
 
         .section-title {
@@ -91,6 +94,7 @@
             text-align: center;
             margin-bottom: 25px;
             color: var(--color-text);
+            font-weight: 700;
         }
         
         /* ========================================================= */
@@ -121,9 +125,35 @@
         /* 將 site-title (h1) 顏色在 header 內設定為白色，以搭配背景漸層 */
         .header .site-title {
             color: var(--color-white);
-            padding: 15px 0;
+            padding: 0; /* h1 的 padding 由 .site-title-wrapper 控制 */
             font-weight: 700;
-        }        
+            line-height: 1.2; /* 調整行高讓 h1 與 icon 更好的對齊 */
+        }
+        /* --- 新增：包裹 icon 和 h1 的容器樣式 --- */
+        .site-title-wrapper {
+            display: flex; /* 使用 flex 佈局 */
+            align-items: center; /* 垂直居中對齊子元素 */
+            justify-content: center; /* 水平居中對齊子元素 */
+            padding: 15px 0; /* 給整個標題區域留出 padding */
+        }      
+        .site-icon-container {
+            width: 40px; /* 圖示容器的固定寬度 */
+            height: 40px; /* 圖示容器的固定高度 */
+            overflow: hidden; /* 確保圖片超出部分被裁切 */
+            border-radius: 50%; /* 正圓形 */
+            margin-right: 15px; /* 圖示與標題文字的間距 */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* 給圖示一個小陰影 */
+            flex-shrink: 0; /* 防止在小螢幕下被擠壓 */
+            display: flex; /* 內部 flex 確保圖片居中 */
+            justify-content: center;
+            align-items: center;
+        }
+        .site-icon-container img {
+            width: 100%; /* 圖片填滿容器 */
+            height: 100%; /* 圖片填滿容器 */
+            object-fit: cover; /* 居中裁切 */
+        }
+
         /* RWD 調整: 當螢幕變寬時，讓 header 保持在 wrap 內，不需負邊距 */
         @media (min-width: 768px) {
             .header {
@@ -417,15 +447,19 @@
 <body>
     <div class="wrap">
         <header class="header">
-            <h1 class="site-title">出門前CHECK一下再走</h1>
+            <div class="site-title-wrapper">
+                <div class="site-icon-container">
+                    <img src="/Gemini_Generated_Image_y6dyaoy6dyaoy6dy.png" alt="網站標題圖示" loading="lazy">
+                </div>
+                <h1 class="site-title">出門前CHECK一下再走</h1>
+            </div>
             <nav class="nav">
                 <a href="#hero" class="nav-button nav-city-select" role="button" aria-controls="city-modal-content">
-                    換個縣市瞧瞧
                     <i class="bi bi-hand-index-thumb-fill" aria-hidden="true"></i>
+                    換個縣市瞧瞧
                 </a>
             </nav>
         </header>
-
         <main class="main-content">
             <section id="hero" class="section section-hero" data-aos="fade-up">
                 <h2 class="section-title">【<span class="city-display">臺北市</span>】未來 36 小時預報</h2>
