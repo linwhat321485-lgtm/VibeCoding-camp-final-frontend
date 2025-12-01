@@ -1,0 +1,189 @@
+# 二版
+
+首先，先進行第一階段：製作一個index.HTML 骨架。
+
+以下是須遵循的製作規格，需以此文本產出完整的html架構：
+
+1. 技術限制（必須嚴格遵守）
+    1. 使用 HTML + CSS + JavaScript
+    2. 外部資源：AOS、axios
+    3. CSS 必須全部寫在 <head> 裡「單一的」 style 標籤內。
+    4. JavaScript 必須全部寫在<script> 標籤內。
+    5. 語系與文字：
+        
+        <html lang="zh-Hant">
+        內容全部使用繁體中文（台灣用語）。
+        
+    6. RWD 策略：
+        
+        採用手機優先（mobile-first）。
+        保證在 320px、768px、1440px 寬度下不會產生水平捲動（依照你的 CSS 設計推估）。
+        
+    7. 不要向我提問：
+        
+        不可以要求我補資料或確認。
+        如有不明確處，你自行填入合理預設值並直接產出結果。
+        
+    8. CSS 禁用 ID 選擇器（非常重要）：
+        
+        在整份 CSS 中「禁止」使用任何 ID 選擇器（例如 #hero、#about 等）。
+        所有樣式請一律使用：
+            元素選擇器（例如 body、img）
+            類別選擇器（例如 .section-hero、 .nav-link）
+            或巢狀組合（例如 .section-hero h1）
+        HTML 中仍可使用 id 作為錨點，但只能掛在元素上（例如 <section id="hero" …>），且只用在 href="#hero" 這類跳轉。
+        
+2. 輸出格式規定（非常重要）
+    1. 只輸出「一個完整的 index.html 檔案內容」。
+    2. 必須是合法的 HTML 文件結構，包含：
+    <!DOCTYPE html>
+    <html lang="zh-Hant">
+    <head> … </head>
+    <body> … </body>
+3. 專案資訊與網站結構
+    1. 專案基本資訊：此專案專門展示天氣觀測資料，供使用者快速瀏覽近36小時內的天氣資訊。
+    2. 使用者可點擊縣市按鈕，切換想顯示的縣市天氣資料。
+    3. 網站主要區塊與錨點名稱
+        1. 外容器：包裹整個顯示範圍。
+            - 名稱<div class=”wrap” …>
+        2. 標題區 header
+            - 名稱<header class=”header” …>
+        3. 導覽區 Nav：
+            - 名稱<nav class=”nav ” …>
+        4. main - hero：
+            - 錨點 id 名稱<section id="hero" …>
+            - 同時在 section 上加上語意化的 class，例如：
+                class="section section-hero"
+            - CSS 只能使用 class（例如 .section-hero），不能寫 #hero。
+        5. <body> 建議結構：
+         <body>
+        	 <div class='wrap'>
+        		…導覽列…
+        		<main> …Hero</main>
+        		…版權資訊…
+        	</div>
+        </body>
+4. 導覽區 Nav 規格
+    1. 僅一顆按鈕，預設為「臺北市」。
+    2. 點擊按鈕，將跳出「選擇縣市清單」視窗。
+    3. 選擇縣市後，main - hero將切換為對應縣市的資訊。
+    4. 縣市清單：參照JSON檔資訊
+5. main - hero 規格
+    1. 分為三個橫向排列的區塊，展示三個時段的天氣資訊
+    2. 需包含：時段、天氣、降雨率、最高氣溫、最低氣溫、舒適度
+    3. 搭配圖文顯示：時段、天氣、降雨率、舒適度
+    4. 時段格式：以中文字呈現
+        
+        例如今日白天、今晚明晨、明日白天
+        
+6. 風格方向（骨架階段）
+    - 整體風格關鍵字：活潑、圓潤、躍動感
+    - 顏色設定：
+        色票參考：#fbcfaa #f68e6b #e7cb46 #aae4be #02ba7a
+    - 以 #f68e6b 作為主色。
+    - #02ba7a 作為醒目的跳色，占比不得超過10%
+    - 可積極使用漸層設定。
+    - 容器皆避免使用邊線，以陰影代替。
+    - 連結與按鈕需統一 "hover"、"action" 的互動變化
+    - 排版：
+        使用fonts.google - Chiron Hei HK。
+        行距偏舒適，適合快速讀取資訊。
+    - 設計上以手機版優先。
+7. HTML 區塊插槽規則（Section HTML Slot，簡版）
+    1. 目的：讓開發者之後可以「整段替換某一個區塊」，而不用思考要貼到哪裡。
+    2. -每個主要區塊都要有一組固定格式的註解插槽，放在 <body> 裡，名稱固定為：
+    
+        Hero 區：SECTION:HERO-START / SECTION:HERO-END
+        
+    - 每一區的 HTML 結構統一為「註解包住一整個 section」，示意：
+    
+            Hero 區：
+    
+            …Hero 區占位內容…
+    3. 其餘區塊以此類推。
+8. CSS 區塊插槽規則（CSS Slot，簡版＋禁止用 ID 選擇器）
+    1. 目的：讓之後的 Prompt 可以「只針對某一區 CSS 做覆蓋」，同時維持 class-based 的寫法。
+    2. 請在 head 裡的 style 中，用 CSS 註解切出以下 7 個區塊，名稱要固定不變，且區塊內只能使用元素 / class 選擇器，不能使用任何 #id：
+        1. - 全站基底樣式（CSS:BASE）
+            1. /* CSS:BASE-START /
+                …全站共用設定（box-sizing、body、.page、.container、img 等）…
+                / CSS:BASE-END */
+        2. - Hero 區樣式（CSS:HERO）
+        /* CSS:HERO-START /
+            …所有與 Hero 區相關的樣式，例如 .section-hero、.hero-title…
+            / CSS:HERO-END */
+        3. - RWD 媒體查詢（CSS:RWD）
+            1. * CSS:RWD-START /
+                …至少一個 @media (min-width: 768px) {…} 之類的手機優先 RWD 設定…
+                / CSS:RWD-END */
+    
+    3. 再次強調：
+    
+    在這 7 個 Slot 裡的任何 CSS 選擇器，都不可以使用「#something」，一律改用 class。
+    
+9. script 區塊插槽規則（JS Slot，簡版）
+    
+    使用註解切至以下區塊：
+    
+    1. DOM
+    2. axios網路請求
+    3. 其他，依程式碼功能做註解
+10. SEO 與結構規則
+    1. 基本結構
+        
+        - 必須包含 <!DOCTYPE html>。
+            - 必須有 <html>、<head>、<body>，巢狀正確。
+            - <html> 必須帶有 lang="zh-Hant"。
+        
+        <head> 內必須包含：
+            - meta charset="UTF-8"
+            - meta name="viewport" content="width=device-width, initial-scale=1.0"
+            - 一個非空的 title 非空且非document，內容與「氣象預報」相關。
+            - 一個 meta name="description" content="..." 。content 長度約 50～160 個字元。
+            - 使用自然的繁體中文描述：這是用來查看天氣預報的網站。
+        
+    2. 標題層級： 全站只能有一個 h1。
+        - 其他區塊主標使用 h2。
+        - 如有需要，可以在區塊內使用 h3 作為小標題，但不要過度複雜。
+    3. 連結規則（這裡要特別注意 href 合法性）：
+        1.  所有 的 href 必須是「非空」且「不是單純的 #」
+        2.  錨點連結一律使用明確 id，例如 href="#hero"。
+11. 圖片規則（必須使用 Unsplash 圖庫）
+    1. 所有 的 src 必須來自 Unsplash，例如：
+        <https://images.unsplash.com/…>
+        或 <https://source.unsplash.com/800x600/?developer,laptop> 之類的關鍵字 URL。
+    2. 每一個<img> 必須：
+        有非空的 alt 文字，描述圖片內容（例如：「天氣晴朗」）。
+    3. 建議加上 loading="lazy"。
+    4. 在 CSS 中適用：
+        img { max-width: 100%; height: auto; display: block; }
+     
+12. RWD 具體要求
+    1. - 手機優先：
+        1. 預設樣式以小螢幕（320px）為基準。
+        2. 各區塊預設為單欄排版。
+        3.  在寬度較大（例如 min-width: 768px）時：
+        		須避免水平捲動。
+    2. - 建議設定：
+    .wrap { margin: 0; }
+        統一使用 .wrap 控制內容最大寬度與左右 padding。
+      .wrap 設定： PC版與PAD最大寬度為60%以內
+         
+13. 自我檢查清單（請在產出前自行確認，含插槽與 href）
+    1. 結構與 SEO
+        
+        有 <!DOCTYPE html>、<html lang="zh-Hant">、<head>、<body>。
+        
+        <meta charset> 與 <meta name="viewport"> 已設定。
+        
+        有 meta name="description" content="..." 。 content 長度約 50～160 個字元。
+        
+    2. html - body內容
+        1. <h1>標籤唯一，且設定於"main"
+        2. <img>標籤的alt屬性非空
+        3. <a>標籤的 href屬性非空，也非#。
+        4. css 設定
+            1. RWD符合要求，並且未產生水平捲動。
+            2. 未使用ID作為css選擇器
+        5. 插槽設定
+        6. html與css 區塊插槽有正確設定。
